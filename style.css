@@ -1,0 +1,101 @@
+body{
+    background:#999;
+    display:flex;
+    justify-content:center;
+    font-family:Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+.folha{
+    background:white;
+    width:800px;
+    max-width:100%; /* nunca ultrapassa a tela */
+    padding:40px;
+    box-shadow:0 0 20px black;
+    margin-top:20px;
+    box-sizing:border-box;
+}
+
+.pergunta{
+    margin-top:20px;
+    padding:10px;
+    border-left:4px solid #444;
+}
+
+input{
+    padding:8px;
+    width:250px;
+    max-width:100%;
+    box-sizing:border-box;
+}
+
+textarea{
+    width:100%;
+    height:80px;
+    box-sizing:border-box;
+}
+
+button{
+    margin-top:30px;
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* --- Responsividade --- */
+@media (max-width:1024px){
+    .folha{
+        width:90%;
+        padding:30px;
+    }
+    input{
+        width:90%;
+        font-size:15px;
+    }
+    textarea{
+        font-size:15px;
+        height:70px;
+    }
+    button{
+        font-size:15px;
+        padding:8px 18px;
+    }
+}
+
+@media (max-width:768px){
+    .folha{
+        width:95%;
+        padding:20px;
+    }
+    input{
+        width:100%;
+        font-size:14px;
+    }
+    textarea{
+        font-size:14px;
+        height:60px;
+    }
+    button{
+        width:100%;
+        font-size:14px;
+        padding:10px;
+    }
+}
+
+@media (max-width:480px){
+    body{
+        padding:10px;
+    }
+    .folha{
+        padding:15px;
+    }
+    input, textarea{
+        font-size:13px;
+    }
+    button{
+        font-size:13px;
+        padding:8px;
+    }
+}

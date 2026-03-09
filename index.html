@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Teste</title>
+
+<style>
+body {
+    font-size: 15pt;
+    background: grey;
+    text-align: center;
+    margin: 0;
+    padding: 0 10px;
+    font-family: Arial, sans-serif;
+}
+
+.folha {
+    margin: 2px;
+    background: whitesmoke;
+    width: 100%;
+    max-width: 800px; /* para desktop */
+    height: auto; /* deixa crescer conforme conteúdo */
+    min-height: 500px;
+    box-shadow: 0 0 20px black;
+    overflow: unset;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.Cabeçario {
+    margin-bottom: 20px;
+}
+
+.nome {
+    font-size: 5pt;
+    display: block;
+    margin-top: 5px;
+}
+
+/* --- Inputs e textarea --- */
+input, textarea {
+    width: 80%;
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14pt;
+    box-sizing: border-box;
+}
+
+/* Botões */
+button {
+    padding: 12px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #00ff9d;
+}
+
+button:hover {
+    background: #00cc7a;
+}
+
+/* Modal/iframe estilo */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.janela {
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-sizing: border-box;
+}
+
+/* --- Responsividade --- */
+
+/* Tablets: <=1024px */
+@media (max-width: 1024px) {
+    .folha {
+        padding: 15px;
+    }
+
+    input, textarea {
+        width: 90%;
+        font-size: 13pt;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 10px 25px;
+    }
+
+    .janela {
+        width: 350px;
+    }
+}
+
+/* Celulares: <=768px */
+@media (max-width: 768px) {
+    .folha {
+        padding: 10px;
+    }
+
+    input, textarea {
+        width: 95%;
+        font-size: 12pt;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .janela {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+/* Celulares muito pequenos: <=480px */
+@media (max-width: 480px) {
+    body {
+        font-size: 12pt;
+    }
+
+    .folha {
+        padding: 8px;
+    }
+
+    input, textarea {
+        font-size: 11pt;
+    }
+
+    button {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .janela {
+        width: 95%;
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="texto"></h1>
+
+<button onclick="abrirCriar()">Criar Conta</button>
+<button onclick="abrirLogin()">Entrar</button>
+
+<div class="modal" id="modal">
+<div class="janela" id="conteudo"></div>
+</div>
+
+<script>
+
+// TEXTO DIGITADO
+
+let texto="Seja bem-vindo ao Sistema de teste de captação para o exame final desenvolvido por Eduardo Portugal.";
+let i=0;
+
+function digitar(){
+
+if(i<texto.length){
+
+document.getElementById("texto").innerHTML+=texto.charAt(i);
+i++;
+
+setTimeout(digitar,40);
+
+}
+
+}
+
+digitar();
+
+
+
+// BANCO DE USUÁRIOS
+
+let contas = JSON.parse(localStorage.getItem("contas")) || [];
+
+// adiciona usuário padrão se não existir
+
+if(!contas.find(u=>u.user==="Eduardo")){
+
+contas.push({
+user:"Eduardo",
+senha:"Edu001"
+});
+
+localStorage.setItem("contas",JSON.stringify(contas));
+
+}
+
+
+
+// MODAL
+
+function abrirCriar(){
+
+document.getElementById("modal").style.display="flex";
+
+document.getElementById("conteudo").innerHTML=`
+
+<h3>Criar Conta</h3>
+
+<input id="novoUser" placeholder="Usuário">
+
+<input id="novaSenha" type="password" placeholder="Senha">
+
+<button onclick="criarConta()">Criar</button>
+
+<button class="fechar" onclick="fechar()">Fechar</button>
+
+`;
+
+}
+
+
+
+function abrirLogin(){
+
+document.getElementById("modal").style.display="flex";
+
+document.getElementById("conteudo").innerHTML=`
+
+<h3>Entrar</h3>
+
+<input id="user" placeholder="Usuário">
+
+<input id="senha" type="password" placeholder="Senha">
+
+<button onclick="login()">Entrar</button>
+
+<button class="fechar" onclick="fechar()">Fechar</button>
+
+`;
+
+}
+
+
+
+function fechar(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+
+
+// CRIAR CONTA
+
+function criarConta(){
+
+let user=document.getElementById("novoUser").value.trim();
+let senha=document.getElementById("novaSenha").value.trim();
+
+if(user=="" || senha==""){
+
+alert("Preencha todos campos");
+return;
+
+}
+
+let contas=JSON.parse(localStorage.getItem("contas")) || [];
+
+if(contas.find(u=>u.user===user)){
+
+alert("Usuário já existe");
+return;
+
+}
+
+contas.push({user:user,senha:senha});
+
+localStorage.setItem("contas",JSON.stringify(contas));
+
+alert("Conta criada com sucesso");
+
+fechar();
+
+}
+
+
+
+// LOGIN
+
+function login(){
+
+let user=document.getElementById("user").value.trim();
+let senha=document.getElementById("senha").value.trim();
+
+let contas=JSON.parse(localStorage.getItem("contas")) || [];
+
+let acesso=contas.find(u=>u.user===user && u.senha===senha);
+
+if(acesso){
+
+alert("Login bem sucedido");
+
+window.location.href="pagina2.html";
+
+}else{
+
+alert("Usuário ou senha incorretos");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
